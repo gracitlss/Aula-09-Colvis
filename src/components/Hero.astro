@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+const [artista] = await getCollection('artista', ({ slug }) => slug === 'index');
+const hero = artista?.data;
+---
+
+<section class="hero section">
+  <div class="container hero-grid">
+    <div>
+      <p class="eyebrow">{hero?.heroEyebrow || 'Lançamento Especial'}</p>
+      <h1>{hero?.heroTitle || 'A poesia de Clóvis Ribeiro'}</h1>
+      <p class="hero-copy">{hero?.heroDescription || 'O novo single...'}</p>
+      <button class="button" type="button" aria-haspopup="dialog" aria-controls="audio-modal" id="open-audio">
+        <span aria-hidden="true">▶</span>
+        {hero?.heroCta || 'Ouça o Single'}
+      </button>
+    </div>
+    <div class="hero-media">
+      <img src="/images/hero-clovis-violao.png" alt={hero?.heroImageAlt || 'Clóvis Ribeiro em estúdio'} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-top: 3.5rem;
+    background: rgb(0, 84, 105);
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 4vw, 4rem);
+    max-width: 12ch;
+  }
+
+  .hero-copy {
+    font-size: 1.05rem;
+    max-width: 64ch;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-media img {
+    width: 100%;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+
+  @media (max-width: 768px) {
+    .hero-grid { grid-template-columns: 1fr; }
+  }
+</style>

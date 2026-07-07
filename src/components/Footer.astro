@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+const [footer] = await getCollection('footer');
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>Sobre o Projeto</h3>
+      <p>Iniciativa dedicada à produção, captação, mixagem e masterização do single "Todos os Meses" de Clóvis Ribeiro.</p>
+    </div>
+    <div>
+      <h3>Privacidade & Termos</h3>
+      <ul>
+        <li><a href="/termos">Termos de Uso</a></li>
+        <li><a href="/privacidade">Política de Privacidade</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Desenvolvimento</h3>
+      <p>Desenvolvido por Diogo M. para o curso de Programação Web da Rede Daora.</p>
+      <button class="button secondary" type="button" id="back-to-top">Voltar ao Topo</button>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding: 3.5rem 0 2.5rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    background: rgba(0,0,0,0.16);
+  }
+
+  .footer-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .site-footer ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+  .site-footer a { color: var(--accent); }
+
+  .button.secondary {
+    margin-top: 0.75rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  document.getElementById('back-to-top')?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>

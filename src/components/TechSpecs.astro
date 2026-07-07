@@ -1,0 +1,60 @@
+---
+import { getCollection } from 'astro:content';
+const [ficha] = await getCollection('ficha-tecnica', ({ slug }) => slug === 'creditos');
+---
+
+<section class="section" id="ficha-tecnica">
+  <div class="container">
+    <p class="eyebrow">{ficha?.data.eyebrow || 'Ficha técnica'}</p>
+    <h2>{ficha?.data.heading || 'Créditos e Infraestrutura Técnica'}</h2>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <h3>Instrumentos e Músicos</h3>
+        <p>Vocais, violões, guitarra e percussão do single.</p>
+        <ul>
+          <li><strong>Vocais:</strong> Clóvis Ribeiro e Albert Jonnes</li>
+          <li><strong>Violões:</strong> Clóvis Ribeiro — Di Giorgio Vintage</li>
+          <li><strong>Guitarra:</strong> Stratocaster Custom e amplificador Giannini</li>
+          <li><strong>Baixo:</strong> Custom (Jennifer / Giannini)</li>
+          <li><strong>Percussão:</strong> Bongô e chocalho</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <h3>Equipamento & Produção</h3>
+        <p>Captação, mixagem e masterização com a equipe de sonoplastia.</p>
+        <ul>
+          <li><strong>Produção:</strong> Akin, Albert e Walmor</li>
+          <li><strong>Gravadores:</strong> Tascam 424 e CCE 3 Head</li>
+          <li><strong>Microfones:</strong> Shure SH 55, AKG P 120, AKG P 3S e Leson SM58</li>
+          <li><strong>Mixer:</strong> Soundvoice MS16EUX</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tech-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tech-card {
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+  }
+
+  .tech-card ul {
+    padding-left: 1.1rem;
+    color: var(--text-secondary);
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  @media (max-width: 768px) {
+    .tech-grid { grid-template-columns: 1fr; }
+  }
+</style>

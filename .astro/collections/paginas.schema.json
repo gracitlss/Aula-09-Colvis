@@ -1,0 +1,30 @@
+{
+  "$ref": "#/definitions/paginas",
+  "definitions": {
+    "paginas": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "string"
+        },
+        "robots": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

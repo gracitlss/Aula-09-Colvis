@@ -1,0 +1,83 @@
+---
+import { getCollection } from 'astro:content';
+const [artista] = await getCollection('artista', ({ slug }) => slug === 'index');
+const about = artista?.data;
+---
+
+<section class="section" id="sobre">
+  <div class="container about-grid">
+    <div class="about-media">
+      <img src={`/${about?.aboutImage || 'images/Clovis Ribeiro.png'}`} alt={about?.aboutImageAlt || 'Clóvis Ribeiro'} />
+    </div>
+    <div>
+      <p class="eyebrow">{about?.aboutEyebrow || 'O Artista'}</p>
+      <h2>{about?.aboutTitle || 'Clovis Ribeiro traz a voz...'}</h2>
+      <div class="about-copy">
+        <slot />
+      </div>
+      <div class="contact-list">
+        <a href={`tel:${about?.contacts?.phone || ''}`}>
+          <span aria-hidden="true">☎</span>
+          <span>{about?.contacts?.phone || '(11) 99202-5160'}</span>
+        </a>
+        <a href={`mailto:${about?.contacts?.email || ''}`}>
+          <span aria-hidden="true">✉</span>
+          <span>{about?.contacts?.email || 'toqueclovisribeiro@yahoo.com.br'}</span>
+        </a>
+        <a href={about?.contacts?.soundcloud || 'https://soundcloud.com/clovisribeiroband2014'} target="_blank" rel="noreferrer">
+          <span aria-hidden="true">♫</span>
+          <span>SoundCloud</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+  }
+
+  .about-media img {
+    width: 100%;
+    max-width: 380px;
+    border-radius: 1.5rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+
+  .about-copy {
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-list {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .contact-list a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: fit-content;
+    padding: 0.8rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.04);
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+  }
+
+  .contact-list a:hover,
+  .contact-list a:focus-visible {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    background: rgba(79, 211, 255, 0.16);
+  }
+
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; }
+  }
+</style>

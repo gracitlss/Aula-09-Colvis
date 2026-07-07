@@ -1,0 +1,63 @@
+---
+const brand = 'Sonoplastia 2026';
+const link = 'https://rededaora.imelc.com.br/';
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="Projeto fonográfico">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>{brand}</span>
+    </a>
+    <a class="header-link" href={link} target="_blank" rel="noreferrer" aria-hidden="true">
+      Rede Daora
+    </a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(18px);
+    background: rgb(223 90 135);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+    color: #050505;
+  }
+
+  .site-header a,
+  .site-header span {
+    color: inherit;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.12);
+  }
+
+  .brand-mark {
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 0 0.35rem rgba(223, 90, 135, 0.18);
+  }
+
+  .header-link {
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.15);
+  }
+</style>

@@ -1,0 +1,90 @@
+{
+  "$ref": "#/definitions/artista",
+  "definitions": {
+    "artista": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "order": {
+          "type": "number"
+        },
+        "heroEyebrow": {
+          "type": "string"
+        },
+        "heroTitle": {
+          "type": "string"
+        },
+        "heroDescription": {
+          "type": "string"
+        },
+        "heroCta": {
+          "type": "string"
+        },
+        "heroImage": {
+          "type": "string"
+        },
+        "heroImageAlt": {
+          "type": "string"
+        },
+        "aboutEyebrow": {
+          "type": "string"
+        },
+        "aboutTitle": {
+          "type": "string"
+        },
+        "aboutImage": {
+          "type": "string"
+        },
+        "aboutImageAlt": {
+          "type": "string"
+        },
+        "contacts": {
+          "type": "object",
+          "properties": {
+            "phone": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "soundcloud": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "image": {
+          "type": "string"
+        },
+        "imageAlt": {
+          "type": "string"
+        },
+        "audioFile": {
+          "type": "string"
+        },
+        "albumArt": {
+          "type": "string"
+        },
+        "artist": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

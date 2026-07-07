@@ -1,0 +1,50 @@
+---
+import '../styles/global.css';
+
+const { title = 'Sonoplastia 2026', description = 'Landing page do single Todos os Meses de Clóvis Ribeiro.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title} | Sonoplastia 2026</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <slot name="header" />
+    <main id="conteudo">
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -3rem;
+    left: 1rem;
+    z-index: 1000;
+    background: var(--accent);
+    color: #061117;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    transition: top 180ms ease;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+</style>

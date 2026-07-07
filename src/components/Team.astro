@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+const equipe = await getCollection('equipe');
+const membros = equipe.sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="section" id="coletivo">
+  <div class="container">
+    <p class="eyebrow">O Coletivo & Rede Daora</p>
+    <h2>Quem fez o som acontecer.</h2>
+    <p class="section-intro">Estudantes do curso de sonoplastia que atuaram de forma conjunta em todas as etapas de gravação, mixagem e masterização do single, sob a condução e orientação do arte-educador Jhonny Magi.</p>
+    <div class="team-grid">
+      {membros.map((membro) => (
+        <article class="team-card">
+          <img src={`/${membro.data.image}`} alt={membro.data.name} />
+          <h3>{membro.data.name}</h3>
+          <p class="team-meta">{membro.data.age || '—'} • {membro.data.role}</p>
+          <p>{membro.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-intro { max-width: 64ch; margin-bottom: 2rem; }
+  .team-grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .team-card {
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: transform 180ms ease, border-color 180ms ease;
+  }
+
+  .team-card:hover,
+  .team-card:focus-within {
+    transform: translateY(-4px);
+    border-color: rgba(139, 92, 246, 0.5);
+  }
+
+  .team-card img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid rgba(139, 92, 246, 0.65);
+    box-shadow: 0 0 0 0.3rem rgba(139, 92, 246, 0.18);
+    margin-bottom: 1rem;
+  }
+
+  .team-meta { color: var(--text-secondary); font-weight: 600; margin-bottom: 0.6rem; }
+
+  @media (max-width: 768px) {
+    .team-grid { grid-template-columns: 1fr; }
+  }
+</style>

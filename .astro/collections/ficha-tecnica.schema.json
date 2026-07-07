@@ -1,0 +1,27 @@
+{
+  "$ref": "#/definitions/ficha-tecnica",
+  "definitions": {
+    "ficha-tecnica": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "eyebrow": {
+          "type": "string"
+        },
+        "heading": {
+          "type": "string"
+        },
+        "order": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

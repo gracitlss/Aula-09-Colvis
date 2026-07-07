@@ -1,0 +1,160 @@
+---
+import { getCollection } from 'astro:content';
+const [musica] = await getCollection('artista', ({ slug }) => slug === 'musica');
+const audio = musica?.data;
+---
+
+<div class="audio-modal" id="audio-modal" role="dialog" aria-modal="true" aria-labelledby="audio-title" hidden>
+  <div class="audio-backdrop" data-close="audio"></div>
+  <div class="audio-panel">
+    <button class="modal-close" type="button" aria-label="Fechar player" data-close="audio">×</button>
+    <div class="audio-card">
+      <img src={`/${audio?.albumArt || 'images/hero-clovis-violao.png'}`} alt={audio?.artist || 'Clóvis Ribeiro'} />
+      <div>
+        <p class="eyebrow">Single</p>
+        <h3 id="audio-title">{audio?.title || 'Todos os Meses'}</h3>
+        <p>{audio?.artist || 'Clóvis Ribeiro'}</p>
+        <audio id="audio-element" preload="metadata" src={`/${audio?.audioFile || 'sounds/clovis-demo.mp3'}`}></audio>
+        <div class="player-controls">
+          <button class="player-btn" id="play-toggle" type="button" aria-label="Tocar áudio">▶</button>
+          <input id="progress" type="range" min="0" max="100" value="0" step="0.1" />
+          <span id="time-display" class="time">0:00</span>
+        </div>
+        <div class="player-controls secondary">
+          <label class="volume-row" for="volume">
+            <span>Volume</span>
+            <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8" />
+          </label>
+          <button class="player-btn small" id="mute-toggle" type="button" aria-label="Ativar mudo">🔊</button>
+        </div>
+        <div class="lyrics">
+          <button class="lyrics-toggle" id="lyrics-toggle" type="button" aria-expanded="false">Ver letra</button>
+          <div id="lyrics-content" class="lyrics-content" hidden>
+            <slot />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .audio-modal[hidden] { display: none !important; }
+  .audio-modal { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; }
+  .audio-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.7); }
+  .audio-panel { position: relative; width: min(860px, calc(100% - 2rem)); }
+  .audio-card { position: relative; display: grid; grid-template-columns: minmax(220px, 300px) 1fr; gap: 1.5rem; padding: 1.5rem; border: 1px solid var(--border); border-radius: 1.5rem; background: rgba(10, 15, 24, 0.96); box-shadow: var(--shadow); color: rgba(249, 196, 215, 1); }
+  .audio-card h3,
+  .audio-card > div > p {
+    color: rgba(249, 196, 215, 1);
+  }
+  .audio-card img { width: 100%; border-radius: 1rem; }
+  .modal-close { position: absolute; top: 0.9rem; right: 0.9rem; width: 2.3rem; height: 2.3rem; border: 0; border-radius: 999px; background: rgba(255,255,255,0.08); color: var(--text); cursor: pointer; }
+  .player-controls { display: flex; gap: 0.75rem; align-items: center; margin-top: 1rem; }
+  .player-controls.secondary { justify-content: space-between; }
+  .player-btn { width: 2.8rem; height: 2.8rem; border-radius: 50%; border: 0; background: linear-gradient(90deg, var(--accent), var(--accent-strong)); color: #00131b; font-weight: 700; cursor: pointer; }
+  .player-btn.small { width: 2.3rem; height: 2.3rem; }
+  .volume-row { display: flex; gap: 0.75rem; align-items: center; color: rgba(249, 196, 215, 1); }
+  .lyrics { margin-top: 1rem; }
+  .lyrics-toggle { border: 0; background: transparent; color: rgba(249, 196, 215, 1); cursor: pointer; padding: 0; }
+  .lyrics-content { margin-top: 0.75rem; color: rgba(249, 196, 215, 1); }
+  input[type='range'] { flex: 1; accent-color: var(--accent); }
+  @media (max-width: 768px) {
+    .audio-card { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('audio-modal');
+    const openButton = document.getElementById('open-audio');
+    const closeButtons = document.querySelectorAll('[data-close="audio"]');
+    const audio = document.getElementById('audio-element');
+    const playToggle = document.getElementById('play-toggle');
+    const progress = document.getElementById('progress');
+    const volume = document.getElementById('volume');
+    const muteToggle = document.getElementById('mute-toggle');
+    const timeDisplay = document.getElementById('time-display');
+    const lyricsToggle = document.getElementById('lyrics-toggle');
+    const lyricsContent = document.getElementById('lyrics-content');
+
+    const formatTime = (value) => {
+      const minutes = Math.floor(value / 60);
+      const seconds = Math.floor(value % 60);
+      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    };
+
+    const openModal = () => {
+      modal?.removeAttribute('hidden');
+      document.body.style.overflow = 'hidden';
+      audio?.play().catch(() => undefined);
+      playToggle && (playToggle.textContent = '❚❚');
+    };
+
+    const closeModal = () => {
+      modal?.setAttribute('hidden', 'true');
+      document.body.style.overflow = '';
+      audio?.pause();
+    };
+
+    openButton?.addEventListener('click', openModal);
+    closeButtons.forEach((btn) => btn.addEventListener('click', closeModal));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeModal();
+    });
+
+    audio?.addEventListener('play', () => {
+      playToggle && (playToggle.textContent = '❚❚');
+    });
+
+    audio?.addEventListener('pause', () => {
+      playToggle && (playToggle.textContent = '▶');
+    });
+
+    playToggle?.addEventListener('click', () => {
+      if (!audio) return;
+      if (audio.paused) {
+        audio.play().catch(() => undefined);
+      } else {
+        audio.pause();
+      }
+    });
+
+    progress?.addEventListener('input', () => {
+      if (!audio) return;
+      const pct = Number(progress.value) / 100;
+      audio.currentTime = pct * (audio.duration || 0);
+    });
+
+    audio?.addEventListener('timeupdate', () => {
+      if (!audio || !progress) return;
+      const percent = (audio.currentTime / (audio.duration || 1)) * 100;
+      progress.value = String(percent);
+      timeDisplay && (timeDisplay.textContent = formatTime(audio.currentTime));
+    });
+
+    volume?.addEventListener('input', () => {
+      if (!audio) return;
+      audio.volume = Number(volume.value);
+    });
+
+    muteToggle?.addEventListener('click', () => {
+      if (!audio || !volume) return;
+      if (audio.muted) {
+        audio.muted = false;
+        volume.value = String(audio.volume);
+        muteToggle.textContent = '🔊';
+      } else {
+        audio.muted = true;
+        muteToggle.textContent = '🔈';
+      }
+    });
+
+    lyricsToggle?.addEventListener('click', () => {
+      const isOpen = lyricsToggle.getAttribute('aria-expanded') === 'true';
+      lyricsToggle.setAttribute('aria-expanded', String(!isOpen));
+      lyricsContent?.toggleAttribute('hidden', isOpen);
+      lyricsToggle.textContent = isOpen ? 'Ver letra' : 'Ocultar letra';
+    });
+  });
+</script>

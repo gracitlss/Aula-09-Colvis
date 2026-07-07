@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+
+const [pagina] = await getCollection('paginas', ({ slug }) => slug === 'termos');
+const { Content } = await render(pagina);
+---
+
+<BaseLayout title="Termos de Uso" description="Termos de uso do site Sonoplastia 2026.">
+  <Fragment slot="header">
+    <Header />
+  </Fragment>
+
+  <section class="legal-page">
+    <div class="container">
+      <article class="legal-card">
+        <h1>{pagina?.data.title}</h1>
+        <Content />
+      </article>
+    </div>
+  </section>
+
+  <Fragment slot="footer">
+    <Footer />
+  </Fragment>
+</BaseLayout>
+
+<style>
+  .legal-page { padding: 3rem 0 4rem; }
+  .legal-card { max-width: 800px; margin: 0 auto; padding: 2rem; border-radius: 1.5rem; background: rgba(255,255,255,0.06); border: 1px solid var(--border); }
+  .legal-card h1 { margin-bottom: 1.5rem; }
+</style>
