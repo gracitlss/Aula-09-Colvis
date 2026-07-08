@@ -15,6 +15,9 @@
         },
         "order": {
           "type": "number"
+        },
+        "$schema": {
+          "type": "string"
         }
       },
       "required": [

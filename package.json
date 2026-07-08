@@ -8,7 +8,7 @@
     "preview": "astro preview"
   },
   "devDependencies": {
-    "@astrojs/vercel": "^8.0.0",
+    "@astrojs/cloudflare": "^12.6.13",
     "astro": "^5.0.0",
     "typescript": "^5.0.0"
   }
